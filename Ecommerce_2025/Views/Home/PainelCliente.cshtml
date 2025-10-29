@@ -1,0 +1,99 @@
+﻿@using Ecommerce_2025.Models.Contants
+@inject Ecommerce_2025.Libraries.Login.LoginCliente _cliente
+
+@{
+    ViewData["Title"] = "Painel Cliente";
+    
+}
+
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Painel</a>
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Buscar..." aria-label="Search">
+
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" asp-action="LogoutCliente" asp-controller="Home">
+                <span>@_cliente.GetCliente()?.Nome</span> — Sair
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container-fluid mt-5 pt-4">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-action="PainelCliente">
+                            <span data-feather="home"></span>
+                            Painel de Controle
+                        </a>
+                    </li>
+
+                    @if (_cliente.GetCliente() != null && _cliente.GetCliente().Situacao == SituacaoConstant.Ativo)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Detalhes" asp-route-id="@_cliente.GetCliente().Id">
+                                <i class='fas fa-user-cog pe-2'></i><span data-feather="users"></span>
+                                Perfil
+                            </a>
+                        </li>
+                    }
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Endereco" asp-action="Index">
+                            <i class='far fa-address-card pe-2'></i><span data-feather="map-pin"></span>
+                            Endereços
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Cliente" asp-action="Index">
+                            <i class='fas fa-users pe-2'></i>
+                            <span data-feather="users"></span>
+                            Cliente
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-cart-plus pe-2"></i>
+                            <span data-feather="shopping-cart"></span>
+                            Pedidos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class='fas fa-newspaper pe-2'></i>
+                                <span data-feather="bar-chart-2 pe-2"></span>
+                            Relatórios
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <h1 class="mt-4">Painel Cliente</h1>
+
+            <p>Informações de Usuário</p>
+            <p>Você é um cliente da loja.</p>
+
+            <div class="card p-3 mt-3">
+                <p><strong>Nome:</strong> @_cliente.GetCliente()?.Nome</p>
+                <p><strong>CPF:</strong> @ViewBag.CPF</p>
+                <p><strong>E-mail:</strong> @ViewBag.Email</p>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/resources/lib/feather/feather.js"></script>
+    <script>
+        feather.replace();
+    </script>
+}
